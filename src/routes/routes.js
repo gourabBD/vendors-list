@@ -6,6 +6,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <Home></Home>,
+    loader: () => fetch(`https://js-tigers-server.vercel.app/vendors/count`),
   },
   {
     path: "/vendors/:id",

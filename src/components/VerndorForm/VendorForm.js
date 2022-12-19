@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { toast } from "react-hot-toast";
+
 
 const VendorForm = () => {
   const handleSubmit = (event) => {
@@ -38,10 +39,13 @@ const VendorForm = () => {
       .then((data) => {
         if (data.acknowledged) {
           toast.success("Vendors data submitted Successfully!");
+
           form.reset();
         }
       })
-      .catch((err) => toast.error(err));
+      .catch((err) => {
+        toast.error(err);
+      });
   };
   return (
     <Form onSubmit={handleSubmit} className="w-75 border p-5 mt-5 ">
