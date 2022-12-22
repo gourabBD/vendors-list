@@ -9,27 +9,38 @@ const VendorForm = () => {
   const [venName,setVenName]=useState(false)
   const [venAccNo,setVenAccNo]=useState(false)
   const [venBank,setVenBank]=useState(false)
+  
   const handleSubmit = (event) => {
   
     event.preventDefault();
   
     const form = event.target;
     const name = form.name.value;
-    const accountNumber = form.accountNumber.value;
+    const accountNumber = parseInt(form.accountNumber.value);
     const bankName = form.bankName.value;
-    if(name || accountNumber|| bankName=== ''){
+    
+    if(name || isNaN(accountNumber)|| bankName=== ''){
      if(name===''){
       return setVenName(true)
      }
      setVenName(false)
-      if(accountNumber===''){
-        return setVenAccNo(true)
+     
+      if(isNaN(accountNumber) || typeof(accountNumber)!=='number' ){
+        
+        setVenAccNo(true)
+        
+        return 
       }
       setVenAccNo(false)
+
+     
+
       if(bankName===''){
-        return setVenBank(true)
+       
+       return setVenBank(true) 
       }
       setVenBank(false)
+      
     }
     const addressOne = form.addressOne.value;
     const addressTwo = form.addressTwo.value;
@@ -79,16 +90,19 @@ const VendorForm = () => {
           
         />
        {venName  ?  <p className="text-danger">You have to enter value in the Vendor Name field!!</p> :<></> }
+
       </Form.Group>
       <Form.Group className="mb-3 text-start" controlId="formBasicEmail">
         <Form.Label>Bank Account No.</Form.Label>
         <Form.Control
           name="accountNumber"
-          type="text"
+          type="number"
           placeholder="Bank Account Number"
           
         />
-         {venAccNo  ?  <p className="text-danger">You have to enter a value in the bank account number field!!</p> :<></> }
+         {venAccNo  ?  <p className="text-danger">You have to fill  the bank account number field with numbers!!</p> :<></> }
+        
+        
       </Form.Group>
       <Form.Group className="mb-3 text-start" controlId="formBasicEmail">
         <Form.Label>Bank Name</Form.Label>
@@ -99,6 +113,7 @@ const VendorForm = () => {
           
         />
          {venBank  ?  <p className="text-danger">You have to enter value in the bank name field!!</p> :<></> }
+        
       </Form.Group>
       <Form.Group className="mb-3 text-start" controlId="formBasicEmail">
         <Form.Label> Address Line 1</Form.Label>
