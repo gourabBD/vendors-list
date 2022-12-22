@@ -1,21 +1,42 @@
-import React, { useState } from "react";
+import React, {  useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { toast } from "react-hot-toast";
 
 
 const VendorForm = () => {
+ 
+  const [venName,setVenName]=useState(false)
+  const [venAccNo,setVenAccNo]=useState(false)
+  const [venBank,setVenBank]=useState(false)
   const handleSubmit = (event) => {
+  
     event.preventDefault();
+  
     const form = event.target;
     const name = form.name.value;
     const accountNumber = form.accountNumber.value;
     const bankName = form.bankName.value;
+    if(name || accountNumber|| bankName=== ''){
+     if(name===''){
+      return setVenName(true)
+     }
+     setVenName(false)
+      if(accountNumber===''){
+        return setVenAccNo(true)
+      }
+      setVenAccNo(false)
+      if(bankName===''){
+        return setVenBank(true)
+      }
+      setVenBank(false)
+    }
     const addressOne = form.addressOne.value;
     const addressTwo = form.addressTwo.value;
     const city = form.city.value;
     const country = form.country.value;
     const zip = form.zip.value;
+    
 
     const vendorInfo = {
       name,
@@ -39,8 +60,7 @@ const VendorForm = () => {
       .then((data) => {
         if (data.acknowledged) {
           toast.success("Vendors data submitted Successfully!");
-
-          form.reset();
+         form.reset();
         }
       })
       .catch((err) => {
@@ -55,9 +75,10 @@ const VendorForm = () => {
         <Form.Control
           name="name"
           type="text"
-          placeholder="Vender Name"
-          required
+          placeholder="Vendor Name"
+          
         />
+       {venName  ?  <p className="text-danger">You have to enter value in the Vendor Name field!!</p> :<></> }
       </Form.Group>
       <Form.Group className="mb-3 text-start" controlId="formBasicEmail">
         <Form.Label>Bank Account No.</Form.Label>
@@ -65,8 +86,9 @@ const VendorForm = () => {
           name="accountNumber"
           type="text"
           placeholder="Bank Account Number"
-          required
+          
         />
+         {venAccNo  ?  <p className="text-danger">You have to enter a value in the bank account number field!!</p> :<></> }
       </Form.Group>
       <Form.Group className="mb-3 text-start" controlId="formBasicEmail">
         <Form.Label>Bank Name</Form.Label>
@@ -74,8 +96,9 @@ const VendorForm = () => {
           name="bankName"
           type="text"
           placeholder="Bank Name"
-          required
+          
         />
+         {venBank  ?  <p className="text-danger">You have to enter value in the bank name field!!</p> :<></> }
       </Form.Group>
       <Form.Group className="mb-3 text-start" controlId="formBasicEmail">
         <Form.Label> Address Line 1</Form.Label>
@@ -84,6 +107,7 @@ const VendorForm = () => {
           type="text"
           placeholder=" Address Line 1"
         />
+        
       </Form.Group>
       <Form.Group className="mb-3 text-start" controlId="formBasicEmail">
         <Form.Label>Address Line 2</Form.Label>
